@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blackhole — Catálogo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #111;
+      color: #e8e0d0;
+      font-family: 'Montserrat', sans-serif;
+      min-height: 100vh;
+    }
+
+    /* NAV */
+    nav {
+      background: #0d0d0d;
+      border-bottom: 1px solid #1e1e1e;
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .brand-icon {
+      width: 36px;
+      height: 36px;
+      background: #f0ece4;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 700;
+      color: #111;
+      letter-spacing: 1px;
+    }
+    .brand-name {
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: 5px;
+      color: #f0ece4;
+    }
+
+    /* HERO */
+    .hero {
+      background: #111;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 100px 24px 80px;
+      text-align: center;
+      border-bottom: 1px solid #1e1e1e;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at center top, rgba(201,162,39,0.04) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-sub {
+      font-size: 10px;
+      letter-spacing: 4px;
+      color: #c9a227;
+      margin-bottom: 28px;
+      font-weight: 500;
+    }
+    .hero-line {
+      display: inline-flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+    .hero-line::before, .hero-line::after {
+      content: '';
+      width: 40px;
+      height: 1px;
+      background: #c9a227;
+      opacity: 0.4;
+    }
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 64px;
+      line-height: 1.05;
+      color: #f0ece4;
+      margin-bottom: 28px;
+    }
+    .hero-title em {
+      color: #c9a227;
+      font-style: italic;
+    }
+    .hero-desc {
+      font-size: 11px;
+      letter-spacing: 2.5px;
+      color: #666;
+      font-weight: 400;
+      line-height: 2.2;
+    }
+
+    /* INFO BAR */
+    .info-bar {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      background: #0f0f0f;
+      border-bottom: 1px solid #1e1e1e;
+    }
+    .info-item {
+      padding: 22px 24px;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      border-right: 1px solid #1e1e1e;
+      border-bottom: 1px solid #1e1e1e;
+    }
+    .info-item:nth-child(even) { border-right: none; }
+    .info-item:nth-child(3), .info-item:nth-child(4) { border-bottom: none; }
+    .info-icon { font-size: 16px; margin-top: 2px; flex-shrink: 0; }
+    .info-label { font-size: 12px; font-weight: 600; color: #e0d8c8; line-height: 1.3; }
+    .info-sub { font-size: 10px; color: #555; margin-top: 3px; letter-spacing: 0.5px; }
+
+    /* FILTER */
+    .filter-section {
+      padding: 28px 24px 20px;
+      border-bottom: 1px solid #1e1e1e;
+    }
+    .filter-label {
+      font-size: 9px;
+      letter-spacing: 3px;
+      color: #555;
+      margin-bottom: 14px;
+      font-weight: 500;
+    }
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .filter-btn {
+      padding: 8px 16px;
+      font-size: 10px;
+      letter-spacing: 2px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 500;
+      border: 1px solid #2a2a2a;
+      background: transparent;
+      color: #777;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .filter-btn:hover { border-color: #444; color: #aaa; }
+    .filter-btn.active {
+      border-color: #c9a227;
+      color: #c9a227;
+      background: rgba(201,162,39,0.06);
+    }
+
+    /* PRODUCTS */
+    .products { padding: 0; }
+
+    .product-card {
+      border-bottom: 1px solid #1a1a1a;
+      overflow: hidden;
+    }
+
+    .img-wrap {
+      width: 100%;
+      aspect-ratio: 4/3;
+      background: #151515;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .img-wrap svg { width: 60%; height: 60%; }
+
+    .product-tag {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      background: rgba(17,17,17,0.88);
+      border: 1px solid #2e2e2e;
+      font-size: 9px;
+      letter-spacing: 2.5px;
+      color: #888;
+      padding: 5px 11px;
+      font-weight: 500;
+      z-index: 1;
+    }
+    .product-tag.bestseller {
+      background: rgba(201,162,39,0.12);
+      border-color: #c9a227;
+      color: #c9a227;
+    }
+
+    .product-info {
+      padding: 28px 24px 32px;
+      background: #111;
+    }
+    .product-category {
+      font-size: 9px;
+      letter-spacing: 3px;
+      color: #c9a227;
+      margin-bottom: 10px;
+      font-weight: 500;
+    }
+    .product-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 34px;
+      color: #f0ece4;
+      margin-bottom: 12px;
+      line-height: 1.1;
+    }
+    .product-desc {
+      font-size: 12px;
+      color: #666;
+      line-height: 1.9;
+      margin-bottom: 24px;
+    }
+    .product-specs {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 28px;
+      border-top: 1px solid #1e1e1e;
+      padding-top: 20px;
+    }
+    .spec-label {
+      font-size: 9px;
+      letter-spacing: 2px;
+      color: #444;
+      margin-bottom: 5px;
+      font-weight: 500;
+    }
+    .spec-value {
+      font-size: 12px;
+      color: #b8b0a0;
+      font-weight: 400;
+      line-height: 1.5;
+    }
+    .product-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid #1e1e1e;
+      padding-top: 20px;
+    }
+    .price-label {
+      font-size: 9px;
+      letter-spacing: 2px;
+      color: #444;
+      margin-bottom: 5px;
+      font-weight: 500;
+    }
+    .price-value {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 26px;
+      color: #c9a227;
+    }
+    .btn-detail {
+      border: 1px solid #333;
+      background: transparent;
+      color: #b0a898;
+      font-size: 10px;
+      letter-spacing: 2px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 500;
+      padding: 12px 20px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      transition: all 0.2s;
+      text-decoration: none;
+    }
+    .btn-detail:hover {
+      border-color: #c9a227;
+      color: #c9a227;
+    }
+
+    /* FOOTER */
+    footer {
+      background: #0d0d0d;
+      border-top: 1px solid #1e1e1e;
+      padding: 48px 24px 32px;
+      text-align: center;
+    }
+    .footer-brand {
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: 6px;
+      color: #f0ece4;
+      margin-bottom: 16px;
+    }
+    .footer-desc {
+      font-size: 11px;
+      color: #555;
+      letter-spacing: 1.5px;
+      line-height: 2;
+      margin-bottom: 28px;
+    }
+    .footer-line {
+      width: 40px;
+      height: 1px;
+      background: #c9a227;
+      opacity: 0.4;
+      margin: 0 auto 28px;
+    }
+    .footer-copy {
+      font-size: 10px;
+      color: #333;
+      letter-spacing: 1px;
+    }
+
+    @media (min-width: 600px) {
+      .hero-title { font-size: 80px; }
+      .products {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
+      .product-card { border-right: 1px solid #1a1a1a; }
+      .info-bar { grid-template-columns: repeat(4, 1fr); }
+      .info-item { border-bottom: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="brand">
+      <div class="brand-icon">BH</div>
+      <div class="brand-name">BLACKHOLE</div>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-sub">CATÁLOGO OFICIAL · ROSARIO, ARGENTINA</div>
+    <div class="hero-line"></div>
+    <h1 class="hero-title">Espejos &amp;<br><em>muebles</em><br>a medida</h1>
+    <p class="hero-desc">Luz LED &nbsp;·&nbsp; Alta calidad &nbsp;·&nbsp; Instalación incluida<br>Envíos a todo el país</p>
+  </section>
+
+  <div class="info-bar">
+    <div class="info-item">
+      <div class="info-icon">📍</div>
+      <div>
+        <div class="info-label">Rosario, Santa Fe</div>
+        <div class="info-sub">Envíos a todo el país</div>
+      </div>
+    </div>
+    <div class="info-item">
+      <div class="info-icon">⏱</div>
+      <div>
+        <div class="info-label">5 días hábiles</div>
+        <div class="info-sub">Tiempo de entrega estimado</div>
+      </div>
+    </div>
+    <div class="info-item">
+      <div class="info-icon">🔧</div>
+      <div>
+        <div class="info-label">Instalación incluida</div>
+        <div class="info-sub">Rosario y alrededores</div>
+      </div>
+    </div>
+    <div class="info-item">
+      <div class="info-icon">📐</div>
+      <div>
+        <div class="info-label">100% a medida</div>
+        <div class="info-sub">Cada pieza es única</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="filter-section">
+    <div class="filter-label">FILTRAR POR CATEGORÍA</div>
+    <div class="filters">
+      <button class="filter-btn active" onclick="filterProducts('todos', this)">TODOS</button>
+      <button class="filter-btn" onclick="filterProducts('espejos', this)">ESPEJOS LED</button>
+      <button class="filter-btn" onclick="filterProducts('muebles', this)">MUEBLES</button>
+      <button class="filter-btn" onclick="filterProducts('escritorios', this)">ESCRITORIOS</button>
+      <button class="filter-btn" onclick="filterProducts('mesas', this)">MESAS</button>
+    </div>
+  </div>
+
+  <div class="products" id="products">
+
+    <!-- RECTANGULAR LED -->
+    <div class="product-card" data-cat="espejos">
+      <div class="img-wrap">
+        <span class="product-tag bestseller">MÁS VENDIDO</span>
+        <svg viewBox="0 0 220 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="20" y="15" width="180" height="130" rx="2" fill="#161616" stroke="#222" stroke-width="1"/>
+          <rect x="20" y="15" width="180" height="130" rx="2" fill="none" stroke="#c9a227" stroke-width="3" opacity="0.6"/>
+          <rect x="24" y="19" width="172" height="122" fill="#1a1a1a"/>
+          <ellipse cx="110" cy="80" rx="28" ry="18" fill="#1e1e1e" stroke="#2a2a2a"/>
+          <text x="110" y="130" text-anchor="middle" fill="#444" font-size="9" font-family="Montserrat,sans-serif" letter-spacing="3">BAÑO &amp; HOGAR</text>
+        </svg>
+      </div>
+      <div class="product-info">
+        <div class="product-category">ESPEJO LED · RECTANGULAR</div>
+        <div class="product-name">Rectangular LED<br>— Baño &amp; Hogar</div>
+        <div class="product-desc">Marco ultrafino con iluminación LED perimetral. Ideal para baños y ambientes modernos con un acabado premium.</div>
+        <div class="product-specs">
+          <div><div class="spec-label">MEDIDA</div><div class="spec-value">A medida</div></div>
+          <div><div class="spec-label">LUZ</div><div class="spec-value">Blanca · RGB</div></div>
+          <div><div class="spec-label">INSTALACIÓN</div><div class="spec-value">Incluida</div></div>
+        </div>
+        <div class="product-footer">
+          <div>
+            <div class="price-label">PRECIO</div>
+            <div class="price-value">Consultar</div>
+          </div>
+          <a class="btn-detail" href="#">VER DETALLE →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- REDONDO LED -->
+    <div class="product-card" data-cat="espejos">
+      <div class="img-wrap">
+        <span class="product-tag">REDONDO</span>
+        <svg viewBox="0 0 220 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="110" cy="80" r="62" fill="#161616" stroke="#222" stroke-width="1"/>
+          <circle cx="110" cy="80" r="62" fill="none" stroke="#c9a227" stroke-width="3" opacity="0.6"/>
+          <circle cx="110" cy="80" r="46" fill="#1a1a1a" stroke="#222"/>
+          <circle cx="110" cy="80" r="30" fill="#1e1e1e" stroke="#2a2a2a"/>
+          <text x="110" y="84" text-anchor="middle" fill="#444" font-size="9" font-family="Montserrat,sans-serif" letter-spacing="3">REDONDO</text>
+        </svg>
+      </div>
+      <div class="product-info">
+        <div class="product-category">ESPEJO LED · REDONDO</div>
+        <div class="product-name">Redondo LED</div>
+        <div class="product-desc">Diseño circular con retroiluminación. Efecto halo perfecto para tocadores, baños y dormitorios. Luz cálida, fría o neutral.</div>
+        <div class="product-specs">
+          <div><div class="spec-label">DIÁMETRO</div><div class="spec-value">A medida</div></div>
+          <div><div class="spec-label">LUZ</div><div class="spec-value">Cálida · Fría · Neutral</div></div>
+          <div><div class="spec-label">INSTALACIÓN</div><div class="spec-value">Incluida</div></div>
+        </div>
+        <div class="product-footer">
+          <div>
+            <div class="price-label">PRECIO</div>
+            <div class="price-value">Consultar</div>
+          </div>
+          <a class="btn-detail" href="#">VER DETALLE →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ESPEJO VESTIDOR -->
+    <div class="product-card" data-cat="espejos">
+      <div class="img-wrap">
+        <span class="product-tag">VESTIDOR</span>
+        <svg viewBox="0 0 220 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="70" y="8" width="80" height="144" rx="1" fill="#161616" stroke="#222" stroke-width="1"/>
+          <rect x="70" y="8" width="6" height="144" fill="#8b2fc9" opacity="0.45"/>
+          <rect x="144" y="8" width="6" height="144" fill="#8b2fc9" opacity="0.45"/>
+          <rect x="76" y="8" width="68" height="144" fill="#1a1a1a"/>
+          <ellipse cx="110" cy="80" rx="18" ry="28" fill="#1e1e1e" stroke="#2a2a2a"/>
+          <text x="110" y="140" text-anchor="middle" fill="#444" font-size="9" font-family="Montserrat,sans-serif" letter-spacing="2">CUERPO ENTERO</text>
+        </svg>
+      </div>
+      <div class="product-info">
+        <div class="product-category">ESPEJO LED · CUERPO ENTERO</div>
+        <div class="product-name">Espejo Vestidor</div>
+        <div class="product-desc">Espejo de cuerpo entero para vestidores y dormitorios. Disponible con RGB controlado desde el celular o en luz blanca.</div>
+        <div class="product-specs">
+          <div><div class="spec-label">ALTO</div><div class="spec-value">Hasta 200 cm</div></div>
+          <div><div class="spec-label">LUZ</div><div class="spec-value">Blanca o RGB</div></div>
+          <div><div class="spec-label">INSTALACIÓN</div><div class="spec-value">Incluida</div></div>
+        </div>
+        <div class="product-footer">
+          <div>
+            <div class="price-label">PRECIO</div>
+            <div class="price-value">Consultar</div>
+          </div>
+          <a class="btn-detail" href="#">VER DETALLE →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ESCRITORIO -->
+    <div class="product-card" data-cat="escritorios">
+      <div class="img-wrap">
+        <span class="product-tag">ESCRITORIO</span>
+        <svg viewBox="0 0 220 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="20" y="72" width="180" height="16" rx="1" fill="#2a2218" stroke="#3a3020" stroke-width="1"/>
+          <rect x="32" y="88" width="10" height="56" fill="#2a2218" stroke="#3a3020" stroke-width="1"/>
+          <rect x="178" y="88" width="10" height="56" fill="#2a2218" stroke="#3a3020" stroke-width="1"/>
+          <text x="110" y="58" text-anchor="middle" fill="#444" font-size="9" font-family="Montserrat,sans-serif" letter-spacing="3">ESCRITORIO</text>
+        </svg>
+      </div>
+      <div class="product-info">
+        <div class="product-category">MUEBLE · ESCRITORIO</div>
+        <div class="product-name">Escritorio<br>a medida</div>
+        <div class="product-desc">Escritorio con estructura metálica resistente y tapa en madera. Diseño minimalista adaptable a cualquier espacio de trabajo.</div>
+        <div class="product-specs">
+          <div><div class="spec-label">MEDIDA</div><div class="spec-value">A medida</div></div>
+          <div><div class="spec-label">MATERIAL</div><div class="spec-value">Madera · Metal</div></div>
+          <div><div class="spec-label">INSTALACIÓN</div><div class="spec-value">Incluida</div></div>
+        </div>
+        <div class="product-footer">
+          <div>
+            <div class="price-label">PRECIO</div>
+            <div class="price-value">Consultar</div>
+          </div>
+          <a class="btn-detail" href="#">VER DETALLE →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- MESA -->
+    <div class="product-card" data-cat="mesas">
+      <div class="img-wrap">
+        <span class="product-tag">MESA</span>
+        <svg viewBox="0 0 220 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="30" y="65" width="160" height="12" rx="1" fill="#2a2218" stroke="#3a3020" stroke-width="1"/>
+          <rect x="44" y="77" width="8" height="64" fill="#2a2218" stroke="#3a3020" stroke-width="1"/>
+          <rect x="88" y="77" width="8" height="64" fill="#2a2218" stroke="#3a3020" stroke-width="1"/>
+          <rect x="124" y="77" width="8" height="64" fill="#2a2218" stroke="#3a3020" stroke-width="1"/>
+          <rect x="168" y="77" width="8" height="64" fill="#2a2218" stroke="#3a3020" stroke-width="1"/>
+          <text x="110" y="52" text-anchor="middle" fill="#444" font-size="9" font-family="Montserrat,sans-serif" letter-spacing="3">MESA</text>
+        </svg>
+      </div>
+      <div class="product-info">
+        <div class="product-category">MUEBLE · MESA</div>
+        <div class="product-name">Mesa a medida</div>
+        <div class="product-desc">Mesa con estructura metálica y tapa de madera. Ideal para comedor, living o terraza. Resistente y de larga durabilidad.</div>
+        <div class="product-specs">
+          <div><div class="spec-label">MEDIDA</div><div class="spec-value">A medida</div></div>
+          <div><div class="spec-label">MATERIAL</div><div class="spec-value">Madera · Metal</div></div>
+          <div><div class="spec-label">INSTALACIÓN</div><div class="spec-value">Incluida</div></div>
+        </div>
+        <div class="product-footer">
+          <div>
+            <div class="price-label">PRECIO</div>
+            <div class="price-value">Consultar</div>
+          </div>
+          <a class="btn-detail" href="#">VER DETALLE →</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    <div class="footer-brand">BLACKHOLE</div>
+    <div class="footer-desc">
+      Rosario, Santa Fe · Argentina<br>
+      Envíos a todo el país · Instalación incluida
+    </div>
+    <div class="footer-line"></div>
+    <div class="footer-copy">© 2025 Blackhole — Todos los derechos reservados</div>
+  </footer>
+
+  <script>
+    function filterProducts(cat, btn) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('.product-card').forEach(card => {
+        card.style.display = (cat === 'todos' || card.dataset.cat === cat) ? '' : 'none';
+      });
+    }
+  </script>
+</body>
+</html>
